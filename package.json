@@ -1,5 +1,5 @@
 {
-  "name": "model",
+  "name": "@lukekaalim/model",
   "version": "0.0.1",
   "description": "Tools for helping model data",
   "main": "src/model",
