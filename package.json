@@ -4,6 +4,8 @@
   "description": "Tools for helping model data",
   "main": "src/model",
   "scripts": {
+    "preversion": "npm test",
+    "postversion": "git push --follow-tags",
     "test": "node test"
   },
   "repository": {
