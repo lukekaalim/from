@@ -1,11 +1,11 @@
 // @flow strict
-const { chain, succeed } = require('@lukekaalim/result');
-const { nameModel, modelString, modelBoolean, modelObject } = require('../src/model');
+const { chain, succeed, fail } = require('@lukekaalim/result');
+const { nameModel, stringModel, booleanModel, modelObject } = require('../src/model');
 
 const User = nameModel('user', modelObject({
-  id: modelString,
+  id: stringModel,
 }));
 
-const oh = chain(User.from('123'))
-  .then(user => succeed('123'))
-  .result()
+chain(User.from({ id: 124 }))
+  .then(user => succeed(console.log('Succeed', user)))
+  .catch(failure => fail(console.error(failure.message)))

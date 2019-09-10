@@ -1,26 +1,20 @@
 // @flow strict
 import type { Result } from '@lukekaalim/result';
-
-export type CastFailure = {
-  type: 'cast-failure',
-  message: string,
-}
-
-export type InternalFailure = {
-  type: 'internal-failure',
-  error: Error,
-}
+import type { CastFailure, InternalFailure } from './failures';
 
 export type Model<T> = {
-  name: string,
-  from: mixed => Result<T, CastFailure | InternalFailure>,
+  from: mixed => Result<T, InternalFailure> | Result<T, CastFailure>,
 };
 
-declare export var modelString: Model<string>;
-declare export var modelNumber: Model<number>;
-declare export var modelBoolean: Model<boolean>;
+export type NamedModel<T> = Model<T> & {
+  name: string,
+};
+
+declare export var stringModel: Model<string>;
+declare export var numberModel: Model<number>;
+declare export var booleanModel: Model<boolean>;
 
 declare export function modelObject<Map>(map: Map): Model<$ObjMap<Map, <V, Y>({ from: () => Result<V, Y> }) => V>>;
 declare export function modelArray<Element>(element: Model<Element>): Model<Array<Element>>;
 
-declare export function nameModel<T>(name: string, model: Model<T>): Model<T>;
+declare export function nameModel<T>(name: string, model: Model<T>): NamedModel<T>;
