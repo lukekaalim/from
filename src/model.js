@@ -1,16 +1,23 @@
+// @flow strict
+/*::
+import type { Result } from '@lukekaalim/result';
+import type { ModelFailure } from './failures';
+*/
 const { succeed, fail, chain } = require('@lukekaalim/result');
 const { stringModel, numberModel, booleanModel } = require('./primitives');
-const { modelObject } = require('./composite');
+const { modelObject, modelArray } = require('./composite');
+const { castFailure } = require('./failures');
+const { nameModel } = require('./name');
 
-const nameModel = (name, model) => ({
-  name,
-  from: value => chain(model.from(value))
-    .catch(failure => fail({ type: 'cast-failure', message: `Failed to cast ${name} because:\n${failure.message}` }))
-    .result()
-});
+/*::
+export type Model<T> = {
+  from: mixed => Result<T, ModelFailure>,
+};
+*/
 
 module.exports = {
   modelObject,
+  modelArray,
   booleanModel,
   numberModel,
   stringModel,

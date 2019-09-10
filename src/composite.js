@@ -3,26 +3,24 @@
 import type { Model } from './model';
 */
 const { fail, succeed } = require('@lukekaalim/result');
-const { failCast } = require('./failures');
+const { castFailure } = require('./failures');
 
-/*::
-declare type ModelObjectFunc = <Map: { [string]: Model<mixed> }>(map: Map) => Model<$ObjMap<Map, <V, Y>(model: Model<V>) => V>>;
-*/
-
-const modelObject/*: ModelObjectFunc*/ = (map) => {
+const modelObject = /*::  <Map: {}>*/(
+  map/*: Map*/,
+)/*: Model<$ObjMap<Map, <V, Y>(model: Model<V>) => V>>*/ => {
   const mapEntries/*: Array<[string, Model<mixed>]>*/ = [];
   for (const key of Object.keys(map)) {
     mapEntries.push([key, map[key]])
   }
   const from = value => {
     if (typeof value !== 'object' || value === null) {
-      return failCast('WAA');
+      return fail(castFailure('WAA'));
     }
     const model = {};
     for (const [name, subModel] of mapEntries) {
       const propertyValueResult = subModel.from(value[name]);
       if (propertyValueResult.type === 'failure') {
-        return failCast('AAA');
+        return fail(castFailure('WAA'));
       }
       model[name] = propertyValueResult.success;
     }
@@ -31,18 +29,20 @@ const modelObject/*: ModelObjectFunc*/ = (map) => {
   return { from };
 };
 
-const modelArray = (elementModel) => {
+const modelArray = /*::  <Element>*/(
+  elementModel/*: Model<Element>*/
+)/*: Model<Array<Element>> */ => {
   const from = value => {
-    if (Array.isArray(value)) {
-      return fail();
+    if (!Array.isArray(value)) {
+      return fail(castFailure('WAA'));
     }
-    const model = {};
-    for (const [name, subModel] of mapEntries) {
-      const propertyValueResult = subModel.from(value[name]);
-      if (propertyValueResult.type === 'failure') {
-        return fail()
+    const model = [];
+    for (const elementValue of value) {
+      const elementResult = elementModel.from(elementValue);
+      if (elementResult.type === 'failure') {
+        return fail(castFailure('WAA'));
       }
-      model[name] = propertyValueResult.success;
+      model.push(elementResult.success);
     }
     return succeed(model);
   };
@@ -51,4 +51,5 @@ const modelArray = (elementModel) => {
 
 module.exports = {
   modelObject,
+  modelArray,
 };

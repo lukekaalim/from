@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/lukekaalim/from#readme",
   "dependencies": {
-    "@lukekaalim/result": "^1.0.1"
+    "@lukekaalim/result": "^1.1.0"
+  },
+  "devDependencies": {
+    "@lukekaalim/test": "^5.0.0"
   }
 }

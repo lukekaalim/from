@@ -16,21 +16,25 @@ export type InternalFailure = {
   message: string,
   error: Error,
 }
+
+export type ModelFailure =
+  | InternalFailure
+  | CastFailure
 */
 
-const failCast = (message/*: string*/, cause/*:: ?: InternalFailure | CastFailure*/)/*: Failure<CastFailure>*/ => fail({
+const castFailure = (message/*: string*/, cause/*:: ?: ModelFailure*/)/*: CastFailure*/ => ({
   type: 'cast-failure',
   message,
   cause,
 });
 
-const failInternal = (error/*: Error*/)/*: Failure<InternalFailure>*/ => fail({
+const internalFailure = (error/*: Error*/)/*: InternalFailure*/ => ({
   type: 'internal-failure',
   message: error.stack,
   error,
 });
 
 module.exports = {
-  failCast,
-  failInternal,
+  castFailure,
+  internalFailure,
 };
