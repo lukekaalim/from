@@ -1,6 +1,6 @@
 // @flow strict
 const { expect, assert} = require('@lukekaalim/test');
-const { modelDisjointUnion, modelUnion } = require('./unions');
+const { modelDisjointUnion, modelTagUnion } = require('./unions');
 const { modelObject } = require('./composite');
 const { stringModel, numberModel } = require('./primitives');
 const { modelLiteral } = require('./literal');
@@ -15,10 +15,7 @@ const expectDisjoinUnion = expect(() => {
 });
 
 const expectUnion = expect(() => {
-  const greetingModel = modelUnion({
-    'howdy': modelLiteral(('howdy'/*: 'howdy'*/)),
-    'sup': modelLiteral(('sup'/*: 'sup'*/)),
-  });
+  const greetingModel = modelTagUnion/*:: <'sup' | 'howdy'>*/(['howdy', 'sup']);
 
   const greetingResult = greetingModel.from('howdy');
 

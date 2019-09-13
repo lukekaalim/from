@@ -8,7 +8,7 @@ const { stringModel, numberModel, booleanModel } = require('./primitives');
 const { modelObject, modelArray } = require('./composite');
 const { castFailure } = require('./failures');
 const { nameModel } = require('./name');
-const { modelDisjointUnion, modelUnion } = require('./unions');
+const { modelDisjointUnion, modelTagUnion } = require('./unions');
 const { modelLiteral } = require('./literal');
 
 /*::
@@ -25,6 +25,6 @@ module.exports = {
   stringModel,
   nameModel,
   modelDisjointUnion,
-  modelUnion,
+  modelTagUnion,
   modelLiteral,
 };

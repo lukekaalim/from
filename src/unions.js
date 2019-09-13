@@ -30,24 +30,24 @@ const modelDisjointUnion = /*::<Map: {}>*/(
   return { from };
 };
 
-const modelUnion = /*::<Map: {}>*/(
-  map/*: Map*/,
-)/*: Model<$Values<$ObjMap<Map, <V>(model: Model<V>) => V>>>*/ => {
-  const tags = Object.keys(map);
+const modelTagUnion = /*::<Union>*/(
+  tags/*: Array<Union>*/,
+)/*: Model<Union>*/ => {
   const from = (value) => {
     const tagResult = stringModel.from(value);
     if (tagResult.type === 'failure') {
       return fail(castFailure(''));
     }
-    if (!tags.includes(tagResult.success)) {
+    const tag = tags.find(tag => tag === tagResult.success);
+    if (!tag) {
       return fail(castFailure(''));
     }
-    return map[tagResult.success].from(value);
+    return succeed(tag);
   };
   return { from };
 }
 
 module.exports = {
   modelDisjointUnion,
-  modelUnion,
+  modelTagUnion,
 }
