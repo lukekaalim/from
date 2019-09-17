@@ -5,7 +5,7 @@ import type { ModelFailure } from './failures';
 */
 const { succeed, fail, chain } = require('@lukekaalim/result');
 const { stringModel, numberModel, booleanModel } = require('./primitives');
-const { modelObject, modelArray } = require('./composite');
+const { modelObject, modelArray, modelTuple } = require('./composite');
 const { castFailure } = require('./failures');
 const { nameModel } = require('./name');
 const { modelDisjointUnion, modelTagUnion } = require('./unions');
@@ -23,6 +23,7 @@ module.exports = {
   numberModel,
   stringModel,
   nameModel,
+  modelTuple,
   modelObject,
   modelArray,
   modelDisjointUnion,
