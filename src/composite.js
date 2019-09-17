@@ -49,7 +49,30 @@ const modelArray = /*::  <Element>*/(
   return { from };
 };
 
+const modelTuple = /*:: <TupleModel>*/(
+  tupleModels/*: TupleModel*/
+)/*: Model<$TupleMap<TupleModel, <V>(model: Model<V>) => V>>*/ => {
+  // $FlowFixMe
+  const models/*: Array<Model<mixed>>*/ = tupleModels;
+  const from = value => {
+    if (!Array.isArray(value)) {
+      return fail(castFailure('WAA'));
+    }
+    const tuple = [];
+    for (let i = 0; i < models.length; i++) {
+      const tupleResult = models[i].from(value[i]);
+      if (tupleResult.type === 'failure')
+        return fail(castFailure('WAA'));
+      tuple[i] = tupleResult.success;
+    }
+    return succeed(tuple);
+  }
+  // $FlowFixMe
+  return { from };
+};
+
 module.exports = {
   modelObject,
   modelArray,
+  modelTuple,
 };

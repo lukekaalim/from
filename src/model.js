@@ -10,6 +10,7 @@ const { castFailure } = require('./failures');
 const { nameModel } = require('./name');
 const { modelDisjointUnion, modelTagUnion } = require('./unions');
 const { modelLiteral } = require('./literal');
+const { modelOptional } = require('./optional');
 
 /*::
 export type Model<T> = {
@@ -18,13 +19,14 @@ export type Model<T> = {
 */
 
 module.exports = {
-  modelObject,
-  modelArray,
   booleanModel,
   numberModel,
   stringModel,
   nameModel,
+  modelObject,
+  modelArray,
   modelDisjointUnion,
   modelTagUnion,
   modelLiteral,
+  modelOptional,
 };
